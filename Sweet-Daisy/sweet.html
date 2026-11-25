@@ -1,0 +1,1651 @@
+html
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sweet Crumb Bakery & Patisserie — Artisan Cakes & Pastries</title>
+    
+    <!-- Google Fonts: Playfair Display (Elegan) & Plus Jakarta Sans (Modern Legible) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- html2canvas CDN untuk merender Struk Digital menjadi Gambar PNG HD -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <!-- Konfigurasi Warna & Font Kustom Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    },
+                    colors: {
+                        cream: {
+                            50: '#FDFBF7',
+                            100: '#F9F3EA',
+                            200: '#F2E5D3',
+                            300: '#E6CEB0',
+                        },
+                        choco: {
+                            700: '#5C3D2E',
+                            800: '#42281D',
+                            900: '#2D1A12',
+                        },
+                        terracotta: {
+                            500: '#D97757',
+                            600: '#C46040',
+                        },
+                        gold: {
+                            400: '#E5B869',
+                            500: '#D4A359',
+                            600: '#B8863B',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar & Animasi Halus */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F9F3EA;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D4A359;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5C3D2E;
+        }
+
+        .receipt-edge {
+            background-image: radial-gradient(circle at 10px 0, transparent 0, transparent 6px, #ffffff 7px);
+            background-size: 20px 14px;
+            background-repeat: repeat-x;
+        }
+        
+        .receipt-edge-bottom {
+            background-image: radial-gradient(circle at 10px 14px, transparent 0, transparent 6px, #ffffff 7px);
+            background-size: 20px 14px;
+            background-repeat: repeat-x;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+        .animate-slide-in {
+            animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-up {
+            animation: fadeUp 0.35s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-cream-50 text-choco-900 font-sans antialiased selection:bg-terracotta-500 selection:text-white">
+
+    <!-- ==================== NAVBAR STICKY ==================== -->
+    <header class="sticky top-0 z-40 bg-cream-50/90 backdrop-blur-md border-b border-cream-200 transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 sm:h-20">
+                <!-- Brand Logo -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-choco-800 text-gold-400 flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+                        <i data-lucide="cake-slice" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-serif text-lg sm:text-xl font-bold text-choco-900 leading-tight">Sweet Crumb</h1>
+                        <p class="text-[11px] uppercase tracking-widest text-terracotta-600 font-semibold">Bakery & Patisserie</p>
+                    </div>
+                </a>
+
+                <!-- Desktop Search Bar -->
+                <div class="hidden md:flex flex-1 max-w-md mx-8">
+                    <div class="relative w-full">
+                        <i data-lucide="search" class="w-4 h-4 text-choco-700/60 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                        <input type="text" id="desktopSearchInput" placeholder="Cari cheesecake, croissant, cookies..." 
+                            class="w-full pl-10 pr-4 py-2.5 bg-cream-100 border border-cream-200 rounded-full text-sm text-choco-900 placeholder:text-choco-700/50 focus:outline-none focus:ring-2 focus:ring-terracotta-500/40 focus:bg-white transition-all">
+                    </div>
+                </div>
+
+                <!-- Action Buttons (Riwayat Pesanan & Keranjang) -->
+                <div class="flex items-center gap-2 sm:gap-3">
+                    <button onclick="openHistoryModal()" class="relative p-2.5 sm:px-4 sm:py-2.5 rounded-full bg-cream-100 hover:bg-cream-200 text-choco-800 font-medium text-sm flex items-center gap-2 transition-colors border border-cream-200" title="Riwayat Pesanan & Struk">
+                        <i data-lucide="receipt-text" class="w-5 h-5 text-terracotta-600"></i>
+                        <span class="hidden sm:inline">Pesanan</span>
+                        <span id="orderBadge" class="hidden w-5 h-5 rounded-full bg-terracotta-600 text-white text-[11px] font-bold flex items-center justify-center">0</span>
+                    </button>
+
+                    <button onclick="toggleCartDrawer(true)" class="relative p-2.5 sm:px-4 sm:py-2.5 rounded-full bg-choco-800 hover:bg-choco-900 text-cream-50 font-medium text-sm flex items-center gap-2 shadow-md hover:shadow-lg transition-all">
+                        <i data-lucide="shopping-bag" class="w-5 h-5 text-gold-400"></i>
+                        <span class="hidden sm:inline">Keranjang</span>
+                        <span id="cartBadge" class="px-2 py-0.5 rounded-full bg-terracotta-500 text-white text-xs font-bold">0</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Search Bar -->
+            <div class="pb-3 md:hidden">
+                <div class="relative w-full">
+                    <i data-lucide="search" class="w-4 h-4 text-choco-700/60 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                    <input type="text" id="mobileSearchInput" placeholder="Cari kue favoritmu di sini..." 
+                        class="w-full pl-10 pr-4 py-2 bg-cream-100 border border-cream-200 rounded-full text-sm text-choco-900 placeholder:text-choco-700/50 focus:outline-none focus:ring-2 focus:ring-terracotta-500/40 focus:bg-white transition-all">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== HERO BANNER ==================== -->
+    <section class="relative overflow-hidden bg-gradient-to-br from-cream-100 via-cream-50 to-cream-200/70 border-b border-cream-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-7 space-y-5 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 border border-gold-400/40 text-choco-800 text-xs font-semibold shadow-sm">
+                        <span class="w-2 h-2 rounded-full bg-terracotta-500 animate-pulse"></span>
+                        Dipanggang Segar Setiap Pagi • 100% Butter Prancis
+                    </div>
+                    <h2 class="font-serif text-3xl sm:text-5xl font-bold text-choco-900 leading-tight">
+                        Manisnya Kebahagiaan di Setiap <span class="text-terracotta-600 italic">Gigitan Artisan</span>
+                    </h2>
+                    <p class="text-choco-700/80 text-sm sm:text-base max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                        Nikmati koleksi cake premium, croissant renyah berlapis, dan soft-baked cookies buatan tangan pastry chef kami. Gunakan kode promo <strong class="text-choco-900 bg-gold-400/30 px-1.5 py-0.5 rounded">MANIS10</strong> atau <strong class="text-choco-900 bg-gold-400/30 px-1.5 py-0.5 rounded">KUEBARU</strong> saat checkout!
+                    </p>
+                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-1">
+                        <a href="#katalog" class="px-6 py-3 rounded-full bg-terracotta-600 hover:bg-terracotta-500 text-white font-semibold text-sm shadow-md hover:shadow-lg transition-all flex items-center gap-2">
+                            Jelajahi Menu Kue <i data-lucide="arrow-down-right" class="w-4 h-4"></i>
+                        </a>
+                        <button onclick="copyPromoQuick('MANIS10')" class="px-5 py-3 rounded-full bg-white hover:bg-cream-100 text-choco-800 border border-cream-300 font-semibold text-sm transition-all flex items-center gap-2">
+                            <i data-lucide="ticket-percent" class="w-4 h-4 text-terracotta-600"></i> Salin Kode: MANIS10
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Hero Feature Card -->
+                <div class="lg:col-span-5">
+                    <div class="relative rounded-3xl overflow-hidden shadow-xl border-4 border-white aspect-[4/3] bg-cream-200">
+                        <img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=900&q=80" 
+                             alt="Signature Belgian Chocolate Truffle Cake" 
+                             onerror="this.src='https://placehold.co/800x600/42281D/E5B869?text=Sweet+Crumb+Patisserie'"
+                             class="w-full h-full object-cover hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-choco-900/80 via-transparent to-transparent flex flex-col justify-end p-5 text-white">
+                            <span class="text-xs uppercase tracking-wider text-gold-400 font-bold">Best Seller Minggu Ini</span>
+                            <h3 class="font-serif text-xl font-bold">Belgian Dark Chocolate Ganache</h3>
+                            <p class="text-xs text-cream-100/90 mt-0.5">Cokelat hitam 70% Belgia dengan lapisan sponge lembut</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== KATALOG PRODUK ==================== -->
+    <main id="katalog" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+        <!-- Header & Filter Kategori -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+            <div>
+                <h2 class="font-serif text-2xl sm:text-3xl font-bold text-choco-900">Koleksi Kue & Pastry</h2>
+                <p class="text-sm text-choco-700/80 mt-1">Pilih kategori favorit atau klik produk untuk memilih ukuran & detail rasa.</p>
+            </div>
+
+            <!-- Category Pills -->
+            <div id="categoryTabs" class="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 no-scrollbar">
+                <!-- Diisi otomatis via JS -->
+            </div>
+        </div>
+
+        <!-- Info Hasil Filter -->
+        <div class="flex items-center justify-between text-xs text-choco-700/70 mb-6">
+            <span id="productCountText">Menampilkan 12 produk pilihan</span>
+            <select id="sortSelect" onchange="renderProducts()" class="bg-white border border-cream-200 rounded-xl px-3 py-1.5 text-choco-800 font-medium focus:outline-none focus:ring-2 focus:ring-terracotta-500/30">
+                <option value="featured">Urutkan: Paling Populer</option>
+                <option value="price-asc">Harga: Terendah ke Tertinggi</option>
+                <option value="price-desc">Harga: Tertinggi ke Terendah</option>
+                <option value="rating">Rating Tertinggi</option>
+            </select>
+        </div>
+
+        <!-- Grid Kartu Produk -->
+        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Kartu produk di-render via JS -->
+        </div>
+
+        <!-- Empty State saat pencarian tidak ditemukan -->
+        <div id="emptySearchState" class="hidden text-center py-16 bg-white rounded-3xl border border-cream-200">
+            <div class="w-16 h-16 mx-auto rounded-full bg-cream-100 flex items-center justify-center text-terracotta-600 mb-4">
+                <i data-lucide="search-x" class="w-8 h-8"></i>
+            </div>
+            <h3 class="font-serif text-xl font-bold text-choco-900">Kue tidak ditemukan</h3>
+            <p class="text-sm text-choco-700/70 mt-1 mb-4">Coba kata kunci lain atau lihat semua kategori menu kami.</p>
+            <button onclick="resetFilters()" class="px-5 py-2.5 rounded-full bg-choco-800 text-white text-sm font-semibold hover:bg-choco-900 transition">
+                Tampilkan Semua Kue
+            </button>
+        </div>
+    </main>
+
+    <!-- ==================== MODAL DETAIL PRODUK & PILIH VARIAN ==================== -->
+    <div id="productModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-choco-900/60 backdrop-blur-sm">
+        <div class="bg-white rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl border border-cream-200 animate-fade-up max-h-[90vh] flex flex-col">
+            <div class="relative h-64 sm:h-72 bg-cream-100 shrink-0">
+                <img id="modalImg" src="" alt="" class="w-full h-full object-cover">
+                <button onclick="closeProductModal()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/90 hover:bg-white text-choco-900 flex items-center justify-center shadow-md transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+                <span id="modalCategory" class="absolute bottom-4 left-4 px-3 py-1 rounded-full bg-choco-900/80 text-gold-400 text-xs font-semibold backdrop-blur-sm"></span>
+            </div>
+
+            <div class="p-6 overflow-y-auto space-y-5">
+                <div class="flex items-start justify-between gap-4">
+                    <div>
+                        <h3 id="modalTitle" class="font-serif text-2xl font-bold text-choco-900"></h3>
+                        <div class="flex items-center gap-2 mt-1 text-sm">
+                            <span class="flex items-center gap-1 text-amber-500 font-bold">
+                                <i data-lucide="star" class="w-4 h-4 fill-amber-500"></i>
+                                <span id="modalRating"></span>
+                            </span>
+                            <span class="text-choco-700/40">•</span>
+                            <span id="modalReviews" class="text-choco-700/70"></span>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs text-choco-700/60">Harga</p>
+                        <p id="modalPrice" class="text-xl font-bold text-terracotta-600"></p>
+                    </div>
+                </div>
+
+                <p id="modalDesc" class="text-sm text-choco-700/90 leading-relaxed"></p>
+
+                <!-- Pilihan Varian / Ukuran -->
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-choco-800 mb-2">Pilih Ukuran / Varian</label>
+                    <div id="modalVariants" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        <!-- Varian di-render via JS -->
+                    </div>
+                </div>
+
+                <!-- Jumlah & Tombol Tambah -->
+                <div class="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 border-t border-cream-200">
+                    <div class="flex items-center justify-between sm:justify-start gap-4 bg-cream-100 px-4 py-2.5 rounded-2xl border border-cream-200">
+                        <button onclick="changeModalQty(-1)" class="w-8 h-8 rounded-full bg-white text-choco-900 font-bold flex items-center justify-center shadow-sm hover:bg-cream-200">-</button>
+                        <span id="modalQty" class="font-bold text-base w-6 text-center">1</span>
+                        <button onclick="changeModalQty(1)" class="w-8 h-8 rounded-full bg-white text-choco-900 font-bold flex items-center justify-center shadow-sm hover:bg-cream-200">+</button>
+                    </div>
+                    <button onclick="confirmAddFromModal()" class="flex-1 py-3.5 px-6 rounded-2xl bg-choco-800 hover:bg-choco-900 text-white font-semibold text-sm shadow-lg flex items-center justify-center gap-2 transition">
+                        <i data-lucide="shopping-bag" class="w-4 h-4 text-gold-400"></i>
+                        Tambah ke Keranjang — <span id="modalTotalBtnPrice"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== DRAWER KERANJANG BELANJA ==================== -->
+    <div id="cartDrawerOverlay" class="fixed inset-0 z-50 hidden bg-choco-900/50 backdrop-blur-xs transition-opacity" onclick="if(event.target === this) toggleCartDrawer(false)">
+        <div class="fixed right-0 top-0 bottom-0 w-full max-w-md bg-cream-50 shadow-2xl flex flex-col animate-slide-in">
+            <!-- Header Keranjang -->
+            <div class="p-5 bg-white border-b border-cream-200 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-9 h-9 rounded-xl bg-cream-100 text-terracotta-600 flex items-center justify-center">
+                        <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-serif text-lg font-bold text-choco-900">Keranjang Kue</h3>
+                        <p id="cartItemCountLabel" class="text-xs text-choco-700/70">0 item dipilih</p>
+                    </div>
+                </div>
+                <button onclick="toggleCartDrawer(false)" class="p-2 rounded-full hover:bg-cream-100 text-choco-700 transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Isi Keranjang -->
+            <div id="cartItemsContainer" class="flex-1 overflow-y-auto p-5 space-y-4">
+                <!-- Item keranjang dirender via JS -->
+            </div>
+
+            <!-- Footer Kalkulasi & Checkout -->
+            <div id="cartFooter" class="p-5 bg-white border-t border-cream-200 space-y-4">
+                <!-- Input Kode Promo -->
+                <div>
+                    <div class="flex gap-2">
+                        <input type="text" id="promoInput" placeholder="Kode promo (MANIS10 / KUEBARU)" 
+                            class="flex-1 px-3.5 py-2 bg-cream-50 border border-cream-300 rounded-xl text-xs uppercase font-semibold tracking-wider text-choco-900 focus:outline-none focus:ring-2 focus:ring-terracotta-500/40">
+                        <button onclick="applyPromoCode()" class="px-4 py-2 rounded-xl bg-choco-800 hover:bg-choco-900 text-white text-xs font-semibold transition">
+                            Pakai
+                        </button>
+                    </div>
+                    <p id="promoMessage" class="text-[11px] mt-1.5 hidden"></p>
+                </div>
+
+                <!-- Pilihan Kurir Pengiriman -->
+                <div>
+                    <label class="block text-[11px] font-bold uppercase tracking-wider text-choco-700/80 mb-1.5">Metode Pengiriman</label>
+                    <select id="shippingSelect" onchange="updateCartSummary()" class="w-full px-3.5 py-2 bg-cream-50 border border-cream-300 rounded-xl text-xs font-medium text-choco-900 focus:outline-none focus:ring-2 focus:ring-terracotta-500/40">
+                        <option value="instant" data-cost="25000">Instan (GoSend / GrabExpress 1-2 Jam) — Rp 25.000</option>
+                        <option value="sameday" data-cost="15000">Same Day Kurir Pendingin — Rp 15.000</option>
+                        <option value="regular" data-cost="10000">Reguler (Khusus Cookies & Pastry Kering) — Rp 10.000</option>
+                    </select>
+                </div>
+
+                <!-- Rincian Harga -->
+                <div class="space-y-1.5 text-xs border-t border-cream-200 pt-3">
+                    <div class="flex justify-between text-choco-700">
+                        <span>Subtotal Produk</span>
+                        <span id="cartSubtotal" class="font-semibold">Rp 0</span>
+                    </div>
+                    <div id="discountRow" class="hidden justify-between text-emerald-600 font-medium">
+                        <span>Diskon Promo (<span id="appliedPromoLabel"></span>)</span>
+                        <span id="cartDiscount">- Rp 0</span>
+                    </div>
+                    <div class="flex justify-between text-choco-700">
+                        <span>Ongkos Kirim</span>
+                        <span id="cartShipping" class="font-semibold">Rp 25.000</span>
+                    </div>
+                    <div class="flex justify-between text-base font-bold text-choco-900 pt-2 border-t border-dashed border-cream-300">
+                        <span>Total Pembayaran</span>
+                        <span id="cartGrandTotal" class="text-terracotta-600">Rp 0</span>
+                    </div>
+                </div>
+
+                <button onclick="openCheckoutModal()" class="w-full py-3.5 rounded-2xl bg-terracotta-600 hover:bg-terracotta-500 text-white font-bold text-sm shadow-lg hover:shadow-xl transition flex items-center justify-center gap-2">
+                    Lanjut ke Pembayaran <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL CHECKOUT & METODE PEMBAYARAN ==================== -->
+    <div id="checkoutModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-choco-900/65 backdrop-blur-sm">
+        <div class="bg-cream-50 rounded-3xl max-w-3xl w-full overflow-hidden shadow-2xl border border-cream-200 animate-fade-up max-h-[92vh] flex flex-col">
+            <!-- Header -->
+            <div class="px-6 py-4 bg-white border-b border-cream-200 flex items-center justify-between shrink-0">
+                <div>
+                    <h3 class="font-serif text-xl font-bold text-choco-900">Checkout & Pembayaran</h3>
+                    <p class="text-xs text-choco-700/70">Lengkapi data pengiriman dan pilih metode pembayaran favoritmu</p>
+                </div>
+                <button onclick="closeCheckoutModal()" class="p-2 rounded-full hover:bg-cream-100 text-choco-700">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Body Form Checkout -->
+            <div class="p-6 overflow-y-auto space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Kolom Kiri: Data Pemesan -->
+                    <div class="space-y-4">
+                        <h4 class="font-bold text-sm text-choco-900 flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-choco-800 text-gold-400 text-xs flex items-center justify-center">1</span>
+                            Data Penerima & Pengiriman
+                        </h4>
+                        
+                        <div>
+                            <label class="block text-xs font-semibold text-choco-800 mb-1">Nama Lengkap *</label>
+                            <input type="text" id="custName" placeholder="Contoh: Clara Wijaya" 
+                                class="w-full px-3.5 py-2.5 bg-white border border-cream-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-terracotta-500/40">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-choco-800 mb-1">Nomor WhatsApp *</label>
+                            <input type="tel" id="custPhone" placeholder="Contoh: 081234567890" 
+                                class="w-full px-3.5 py-2.5 bg-white border border-cream-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-terracotta-500/40">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-choco-800 mb-1">Alamat Lengkap Pengiriman *</label>
+                            <textarea id="custAddress" rows="2" placeholder="Nama jalan, nomor rumah, RT/RW, kecamatan, patokan..." 
+                                class="w-full px-3.5 py-2 bg-white border border-cream-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-terracotta-500/40"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-choco-800 mb-1">Catatan / Ucapan di Kue (Opsional)</label>
+                            <input type="text" id="custNote" placeholder="Contoh: Happy Birthday Mama! Lilin angka 50" 
+                                class="w-full px-3.5 py-2.5 bg-white border border-cream-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-terracotta-500/40">
+                        </div>
+                    </div>
+
+                    <!-- Kolom Kanan: Metode Pembayaran Beragam -->
+                    <div class="space-y-4">
+                        <h4 class="font-bold text-sm text-choco-900 flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-choco-800 text-gold-400 text-xs flex items-center justify-center">2</span>
+                            Pilih Metode Pembayaran
+                        </h4>
+
+                        <!-- Tab Kategori Pembayaran -->
+                        <div class="grid grid-cols-2 gap-2">
+                            <button type="button" onclick="selectPaymentCategory('qris')" id="payCat-qris" class="pay-cat-btn p-2.5 rounded-xl border-2 border-terracotta-600 bg-terracotta-500/10 text-left transition">
+                                <div class="flex items-center gap-2 font-bold text-xs text-choco-900">
+                                    <i data-lucide="qr-code" class="w-4 h-4 text-terracotta-600"></i> QRIS Instan
+                                </div>
+                                <p class="text-[10px] text-choco-700/70 mt-0.5">Semua e-wallet & m-Banking</p>
+                            </button>
+
+                            <button type="button" onclick="selectPaymentCategory('va')" id="payCat-va" class="pay-cat-btn p-2.5 rounded-xl border border-cream-300 bg-white text-left transition hover:border-choco-700">
+                                <div class="flex items-center gap-2 font-bold text-xs text-choco-900">
+                                    <i data-lucide="landmark" class="w-4 h-4 text-choco-700"></i> Virtual Account
+                                </div>
+                                <p class="text-[10px] text-choco-700/70 mt-0.5">BCA, Mandiri, BNI, BRI</p>
+                            </button>
+
+                            <button type="button" onclick="selectPaymentCategory('ewallet')" id="payCat-ewallet" class="pay-cat-btn p-2.5 rounded-xl border border-cream-300 bg-white text-left transition hover:border-choco-700">
+                                <div class="flex items-center gap-2 font-bold text-xs text-choco-900">
+                                    <i data-lucide="wallet" class="w-4 h-4 text-choco-700"></i> E-Wallet
+                                </div>
+                                <p class="text-[10px] text-choco-700/70 mt-0.5">GoPay, OVO, DANA, ShopeePay</p>
+                            </button>
+
+                            <button type="button" onclick="selectPaymentCategory('cod')" id="payCat-cod" class="pay-cat-btn p-2.5 rounded-xl border border-cream-300 bg-white text-left transition hover:border-choco-700">
+                                <div class="flex items-center gap-2 font-bold text-xs text-choco-900">
+                                    <i data-lucide="banknote" class="w-4 h-4 text-choco-700"></i> COD (Bayar di Tempat)
+                                </div>
+                                <p class="text-[10px] text-choco-700/70 mt-0.5">Bayar tunai saat kue tiba</p>
+                            </button>
+                        </div>
+
+                        <!-- Area Detail Pembayaran Dinamis -->
+                        <div id="paymentDetailBox" class="p-4 bg-white rounded-2xl border border-cream-200 shadow-xs">
+                            <!-- Diisi via JS sesuai kategori pembayaran -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Checkout -->
+            <div class="px-6 py-4 bg-white border-t border-cream-200 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
+                <div>
+                    <p class="text-xs text-choco-700/70">Total Tagihan Akhir</p>
+                    <p id="checkoutFinalTotal" class="text-xl font-bold text-terracotta-600">Rp 0</p>
+                </div>
+                <button onclick="processPayment()" id="confirmPayBtn" class="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-choco-800 hover:bg-choco-900 text-white font-bold text-sm shadow-lg flex items-center justify-center gap-2 transition">
+                    <i data-lucide="shield-check" class="w-5 h-5 text-gold-400"></i>
+                    <span id="confirmPayBtnText">Konfirmasi & Bayar Sekarang</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL BUKTI PEMBAYARAN / STRUK DIGITAL ==================== -->
+    <div id="receiptModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-choco-900/75 backdrop-blur-md">
+        <div class="max-w-md w-full flex flex-col max-h-[94vh] animate-fade-up">
+            
+            <!-- Toolbar Atas Modal Struk -->
+            <div class="flex items-center justify-between text-white mb-3 px-1">
+                <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                    <span class="text-sm font-semibold">Transaksi Berhasil!</span>
+                </div>
+                <button onclick="closeReceiptModal()" class="p-1.5 rounded-full bg-white/15 hover:bg-white/25 text-white transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Area Scrollable Struk yang Akan Di-render ke PNG -->
+            <div class="overflow-y-auto rounded-2xl shadow-2xl">
+                <!-- ELEMENT TARGET CAPTURE HTML2CANVAS -->
+                <div id="printableReceipt" class="bg-white text-choco-900 p-6 sm:p-7 relative">
+                    <!-- Header Toko -->
+                    <div class="text-center border-b-2 border-dashed border-cream-300 pb-5">
+                        <div class="w-12 h-12 mx-auto rounded-2xl bg-choco-800 text-gold-400 flex items-center justify-center mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"/><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1"/><path d="M2 21h20"/><path d="M7 8v3"/><path d="M12 8v3"/><path d="M17 8v3"/><path d="M7 4h.01"/><path d="M12 4h.01"/><path d="M17 4h.01"/></svg>
+                        </div>
+                        <h2 class="font-serif text-xl font-bold tracking-tight text-choco-900">Sweet Crumb Bakery</h2>
+                        <p class="text-[11px] uppercase tracking-widest text-terracotta-600 font-bold">Artisan Cake & Patisserie</p>
+                        <p class="text-[11px] text-choco-700/70 mt-1">Jl. Melawai Raya No. 88, Jakarta Selatan • WA: 0811-9988-7766</p>
+                    </div>
+
+                    <!-- Status Badge & Nomor Invoice -->
+                    <div class="py-4 border-b border-dashed border-cream-300 flex items-center justify-between">
+                        <div>
+                            <p class="text-[10px] uppercase tracking-wider text-choco-700/60 font-semibold">Nomor Invoice</p>
+                            <p id="recInvoice" class="font-mono text-xs font-bold text-choco-900 mt-0.5">INV-20261123-8821</p>
+                            <p id="recDate" class="text-[11px] text-choco-700/70 mt-0.5">23 Nov 2026, 08:42 WIB</p>
+                        </div>
+                        <div id="recStatusBadge" class="px-3 py-1.5 rounded-lg bg-emerald-100 border border-emerald-300 text-emerald-800 text-xs font-extrabold tracking-wide">
+                            LUNAS
+                        </div>
+                    </div>
+
+                    <!-- Informasi Pembeli -->
+                    <div class="py-3.5 border-b border-dashed border-cream-300 text-xs space-y-1">
+                        <div class="flex justify-between">
+                            <span class="text-choco-700/70">Pemesan:</span>
+                            <span id="recCustName" class="font-bold text-choco-900 text-right"></span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-choco-700/70">WhatsApp:</span>
+                            <span id="recCustPhone" class="font-medium text-choco-900"></span>
+                        </div>
+                        <div class="flex justify-between gap-4">
+                            <span class="text-choco-700/70 shrink-0">Alamat:</span>
+                            <span id="recCustAddress" class="font-medium text-choco-900 text-right"></span>
+                        </div>
+                        <div id="recNoteRow" class="flex justify-between gap-4">
+                            <span class="text-choco-700/70 shrink-0">Catatan Kue:</span>
+                            <span id="recCustNote" class="italic font-medium text-terracotta-600 text-right"></span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-choco-700/70">Metode Bayar:</span>
+                            <span id="recPayMethod" class="font-bold text-choco-900"></span>
+                        </div>
+                    </div>
+
+                    <!-- Daftar Item Pesanan -->
+                    <div class="py-3.5 border-b border-dashed border-cream-300">
+                        <p class="text-[10px] uppercase tracking-wider text-choco-700/60 font-bold mb-2.5">Rincian Pesanan Kue</p>
+                        <div id="recItemsList" class="space-y-2 text-xs">
+                            <!-- Item struk di-render via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Rincian Biaya -->
+                    <div class="py-3.5 border-b-2 border-dashed border-cream-300 space-y-1.5 text-xs">
+                        <div class="flex justify-between text-choco-700">
+                            <span>Subtotal</span>
+                            <span id="recSubtotal" class="font-semibold"></span>
+                        </div>
+                        <div id="recDiscountRow" class="flex justify-between text-emerald-700">
+                            <span>Diskon Promo</span>
+                            <span id="recDiscount" class="font-semibold"></span>
+                        </div>
+                        <div class="flex justify-between text-choco-700">
+                            <span id="recShippingLabel">Ongkos Kirim</span>
+                            <span id="recShipping" class="font-semibold"></span>
+                        </div>
+                        <div class="flex justify-between text-base font-extrabold text-choco-900 pt-2 border-t border-cream-200">
+                            <span>TOTAL BAYAR</span>
+                            <span id="recGrandTotal" class="text-terracotta-600"></span>
+                        </div>
+                    </div>
+
+                    <!-- QR Code Verifikasi & Footer Struk -->
+                    <div class="pt-4 flex items-center justify-between gap-4">
+                        <div class="space-y-1">
+                            <p class="text-[11px] font-bold text-choco-900">Terima kasih telah memesan!</p>
+                            <p class="text-[10px] text-choco-700/75 leading-relaxed">
+                                Simpan struk digital ini sebagai bukti pembayaran sah untuk pengambilan atau penerimaan pesanan kue Anda.
+                            </p>
+                        </div>
+                        <!-- Canvas QR Verifikasi Otomatis -->
+                        <div class="shrink-0 p-1.5 bg-cream-50 border border-cream-200 rounded-xl">
+                            <canvas id="receiptQrCanvas" width="68" height="68" class="block"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tombol Download ke Galeri & Tutup -->
+            <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2.5 shrink-0">
+                <button onclick="downloadReceiptImage()" id="downloadReceiptBtn" class="sm:col-span-2 py-3.5 px-5 rounded-2xl bg-terracotta-600 hover:bg-terracotta-500 text-white font-bold text-sm shadow-xl flex items-center justify-center gap-2 transition cursor-pointer">
+                    <i data-lucide="download" class="w-5 h-5"></i>
+                    Download Bukti Pembayaran (Simpan ke Galeri)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL RIWAYAT PESANAN ==================== -->
+    <div id="historyModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-choco-900/60 backdrop-blur-sm">
+        <div class="bg-cream-50 rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl border border-cream-200 animate-fade-up max-h-[85vh] flex flex-col">
+            <div class="px-6 py-4 bg-white border-b border-cream-200 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <i data-lucide="receipt-text" class="w-5 h-5 text-terracotta-600"></i>
+                    <h3 class="font-serif text-lg font-bold text-choco-900">Riwayat Pesanan Anda</h3>
+                </div>
+                <button onclick="closeHistoryModal()" class="p-2 rounded-full hover:bg-cream-100 text-choco-700">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div id="historyListContainer" class="p-5 overflow-y-auto space-y-3 flex-1">
+                <!-- Riwayat pesanan dirender via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== TOAST NOTIFICATION ==================== -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- ==================== JAVASCRIPT APPLICATION LOGIC ==================== -->
+    <script>
+        // 1. DATA KATALOG PRODUK KUE
+        const PRODUCTS = [
+            {
+                id: 'cake-1',
+                name: 'Belgian Dark Chocolate Truffle',
+                category: 'Cake & Tart',
+                price: 285000,
+                rating: 4.9,
+                reviews: 142,
+                image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=700&q=80',
+                desc: 'Kue cokelat premium tiga lapis menggunakan cokelat hitam 70% asli Belgia, dilapisi silky ganache dan taburan serutan cokelat mewah.',
+                variants: [
+                    { name: 'Whole 16 cm (6-8 Porsi)', priceAdd: 0 },
+                    { name: 'Whole 20 cm (10-14 Porsi)', priceAdd: 95000 },
+                    { name: 'Slice Personal (1 Potong)', priceAdd: -230000 }
+                ]
+            },
+            {
+                id: 'cake-2',
+                name: 'Strawberry Chantilly Shortcake',
+                category: 'Cake & Tart',
+                price: 265000,
+                rating: 4.9,
+                reviews: 118,
+                image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=700&q=80',
+                desc: 'Sponge cake vanila super lembut khas Jepang dengan krim mascarpone ringan dan potongan stroberi segar Lembang pilihan.',
+                variants: [
+                    { name: 'Whole 16 cm', priceAdd: 0 },
+                    { name: 'Whole 20 cm', priceAdd: 85000 }
+                ]
+            },
+            {
+                id: 'cake-3',
+                name: 'Basque Burnt Cheesecake',
+                category: 'Cake & Tart',
+                price: 240000,
+                rating: 4.8,
+                reviews: 96,
+                image: 'https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=700&q=80',
+                desc: 'Cheesecake panggang suhu tinggi ala San Sebastian dengan bagian luar karamel aromatik dan bagian tengah yang lumer creamy.',
+                variants: [
+                    { name: 'Original Vanilla Bean (16 cm)', priceAdd: 0 },
+                    { name: 'Matcha Uji Kyoto (16 cm)', priceAdd: 25000 }
+                ]
+            },
+            {
+                id: 'pastry-1',
+                name: 'French Butter Croissant (Box isi 4)',
+                category: 'Pastry & Croissant',
+                price: 110000,
+                rating: 4.9,
+                reviews: 210,
+                image: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=700&q=80',
+                desc: 'Croissant autentik 27 lapisan renyah di luar dan berongga lembut di dalam, dibuat dengan 100% Elle & Vire French Butter.',
+                variants: [
+                    { name: 'Original Classic (4 pcs)', priceAdd: 0 },
+                    { name: 'Almond Frangipane (4 pcs)', priceAdd: 25000 },
+                    { name: 'Pain au Chocolat (4 pcs)', priceAdd: 20000 }
+                ]
+            },
+            {
+                id: 'pastry-2',
+                name: 'Pistachio Raspberry Danish',
+                category: 'Pastry & Croissant',
+                price: 42000,
+                rating: 4.8,
+                reviews: 74,
+                image: 'https://images.unsplash.com/photo-1509365465985-25d11c17e812?auto=format&fit=crop&w=700&q=80',
+                desc: 'Pastry renyah berisikan krim pastri pistachio panggang Iran dan selai buah raspberry segar asam-manis.',
+                variants: [
+                    { name: 'Satuan (1 pc)', priceAdd: 0 },
+                    { name: 'Hampers Box isi 4', priceAdd: 115000 }
+                ]
+            },
+            {
+                id: 'pastry-3',
+                name: 'Cinnamon Brioche Roll',
+                category: 'Pastry & Croissant',
+                price: 38000,
+                rating: 4.7,
+                reviews: 65,
+                image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=700&q=80',
+                desc: 'Roti brioche lembut gulung kayu manis Ceylon dengan glaze cream cheese vanila yang meleleh hangat.',
+                variants: [
+                    { name: 'Single Roll', priceAdd: 0 },
+                    { name: 'Box isi 4 Rolls', priceAdd: 105000 }
+                ]
+            },
+            {
+                id: 'cookies-1',
+                name: 'NYC Levain Chocochip Walnut Cookies',
+                category: 'Cookies',
+                price: 95000,
+                rating: 5.0,
+                reviews: 189,
+                image: 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&fit=crop&w=700&q=80',
+                desc: 'Soft-baked cookies tebal gaya New York, renyah di pinggir dan gooey di tengah dengan potongan dark chocolate & kacang walnut.',
+                variants: [
+                    { name: 'Box isi 3 Cookies (120gr/pc)', priceAdd: 0 },
+                    { name: 'Box isi 6 Cookies', priceAdd: 85000 }
+                ]
+            },
+            {
+                id: 'cookies-2',
+                name: 'Red Velvet White Choc Cookies',
+                category: 'Cookies',
+                price: 98000,
+                rating: 4.8,
+                reviews: 82,
+                image: 'https://images.unsplash.com/photo-1618923850107-d1a234d7a73a?auto=format&fit=crop&w=700&q=80',
+                desc: 'Cookies red velvet lembut berpadu dengan lelehan cokelat putih Belgia dan isian cream cheese manis gurih.',
+                variants: [
+                    { name: 'Box isi 3 Cookies', priceAdd: 0 },
+                    { name: 'Box isi 6 Cookies', priceAdd: 90000 }
+                ]
+            },
+            {
+                id: 'cupcake-1',
+                name: 'Salted Caramel Mocha Cupcakes (Box 4)',
+                category: 'Cupcakes',
+                price: 125000,
+                rating: 4.9,
+                reviews: 91,
+                image: 'https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?auto=format&fit=crop&w=700&q=80',
+                desc: 'Cupcake kopi espresso lembut dengan swirl buttercream moka dan siraman saus karamel asin buatan sendiri.',
+                variants: [
+                    { name: 'Box isi 4 Cupcakes', priceAdd: 0 },
+                    { name: 'Box isi 6 Cupcakes', priceAdd: 55000 }
+                ]
+            },
+            {
+                id: 'cupcake-2',
+                name: 'Rose Berry Vanilla Cupcakes (Box 4)',
+                category: 'Cupcakes',
+                price: 120000,
+                rating: 4.8,
+                reviews: 63,
+                image: 'https://images.unsplash.com/photo-1519869325930-281384150729?auto=format&fit=crop&w=700&q=80',
+                desc: 'Cupcake vanila Madagaskar cantik dengan dekorasi krim bunga mawar lembut dan isian selai beri merah.',
+                variants: [
+                    { name: 'Box isi 4 Cupcakes', priceAdd: 0 },
+                    { name: 'Box isi 6 Cupcakes', priceAdd: 50000 }
+                ]
+            },
+
+            {
+                id: 'cookies',
+                name: 'Rose Berry Vanilla Cupcakes (Box 4)',
+                category: 'Cupcakes',
+                price: 120000,
+                rating: 4.8,
+                reviews: 63,
+                image: 'Cookies Matcha.jpeg',
+                desc: 'Cupcake vanila Madagaskar cantik dengan dekorasi krim bunga mawar lembut dan isian selai beri merah.',
+                variants: [
+                    { name: 'Box isi 4 Cupcakes', priceAdd: 0 },
+                    { name: 'Box isi 6 Cupcakes', priceAdd: 50000 }
+                ]
+            }
+        ];
+
+        const CATEGORIES = ['Semua', 'Cake & Tart', 'Pastry & Croissant', 'Cookies', 'Cupcakes'];
+
+        // 2. STATE APLIKASI
+        let state = {
+            selectedCategory: 'Semua',
+            searchQuery: '',
+            cart: [],
+            promoCode: null,
+            promoDiscount: 0,
+            shippingType: 'instant',
+            shippingCost: 25000,
+            selectedPayCategory: 'qris',
+            selectedPaySubMethod: 'QRIS Instan (Semua Bank & E-Wallet)',
+            orders: [],
+            activeModalProduct: null,
+            activeModalVariantIndex: 0,
+            activeModalQty: 1
+        };
+
+        // 3. FORMATTER RUPIAH
+        function formatRupiah(angka) {
+            return 'Rp ' + Math.max(0, Math.round(angka)).toLocaleString('id-ID');
+        }
+
+        // 4. INISIALISASI HALAMAN
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load riwayat pesanan dari localStorage jika ada
+            try {
+                const savedOrders = localStorage.getItem('sweetcrumb_orders');
+                if (savedOrders) {
+                    state.orders = JSON.parse(savedOrders);
+                    updateOrderBadge();
+                }
+            } catch (e) { console.warn('Storage tidak tersedia'); }
+
+            renderCategoryTabs();
+            renderProducts();
+            updateCartUI();
+            selectPaymentCategory('qris');
+            lucide.createIcons();
+
+            // Event Listener Pencarian (Desktop & Mobile)
+            const handleSearch = (e) => {
+                state.searchQuery = e.target.value.toLowerCase().trim();
+                document.getElementById('desktopSearchInput').value = e.target.value;
+                document.getElementById('mobileSearchInput').value = e.target.value;
+                renderProducts();
+            };
+            document.getElementById('desktopSearchInput').addEventListener('input', handleSearch);
+            document.getElementById('mobileSearchInput').addEventListener('input', handleSearch);
+        });
+
+        // 5. RENDER KATEGORI & PRODUK
+        function renderCategoryTabs() {
+            const container = document.getElementById('categoryTabs');
+            container.innerHTML = CATEGORIES.map(cat => {
+                const isActive = state.selectedCategory === cat;
+                return `
+                    <button onclick="setCategory('${cat}')" 
+                        class="px-4 py-2 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition-all ${
+                            isActive 
+                            ? 'bg-choco-800 text-gold-400 shadow-md' 
+                            : 'bg-white text-choco-800 border border-cream-200 hover:bg-cream-100'
+                        }">
+                        ${cat}
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function setCategory(cat) {
+            state.selectedCategory = cat;
+            renderCategoryTabs();
+            renderProducts();
+        }
+
+        function resetFilters() {
+            state.selectedCategory = 'Semua';
+            state.searchQuery = '';
+            document.getElementById('desktopSearchInput').value = '';
+            document.getElementById('mobileSearchInput').value = '';
+            renderCategoryTabs();
+            renderProducts();
+        }
+
+        function renderProducts() {
+            const sortBy = document.getElementById('sortSelect').value;
+            let filtered = PRODUCTS.filter(p => {
+                const matchCat = state.selectedCategory === 'Semua' || p.category === state.selectedCategory;
+                const matchSearch = p.name.toLowerCase().includes(state.searchQuery) || 
+                                    p.desc.toLowerCase().includes(state.searchQuery) ||
+                                    p.category.toLowerCase().includes(state.searchQuery);
+                return matchCat && matchSearch;
+            });
+
+            if (sortBy === 'price-asc') filtered.sort((a, b) => a.price - b.price);
+            if (sortBy === 'price-desc') filtered.sort((a, b) => b.price - a.price);
+            if (sortBy === 'rating') filtered.sort((a, b) => b.rating - a.rating);
+
+            const grid = document.getElementById('productGrid');
+            const emptyState = document.getElementById('emptySearchState');
+            document.getElementById('productCountText').textContent = `Menampilkan ${filtered.length} kue pilihan`;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            grid.innerHTML = filtered.map(product => `
+                <div class="group bg-white rounded-3xl border border-cream-200 overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col">
+                    <!-- Gambar Produk -->
+                    <div class="relative aspect-[4/3] bg-cream-100 overflow-hidden cursor-pointer" onclick="openProductModal('${product.id}')">
+                        <img src="${product.image}" alt="${product.name}" 
+                             onerror="this.src='https://placehold.co/600x450/F2E5D3/5C3D2E?text=${encodeURIComponent(product.name)}'"
+                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 backdrop-blur-xs text-choco-800 text-[11px] font-bold shadow-xs">
+                            ${product.category}
+                        </span>
+                        <div class="absolute bottom-3 right-3 px-2.5 py-1 rounded-full bg-choco-900/80 text-white text-xs font-bold flex items-center gap-1 backdrop-blur-xs">
+                            <i data-lucide="star" class="w-3.5 h-3.5 text-amber-400 fill-amber-400"></i>
+                            ${product.rating}
+                        </div>
+                    </div>
+
+                    <!-- Detail Kartu -->
+                    <div class="p-5 flex-1 flex flex-col justify-between space-y-4">
+                        <div>
+                            <h3 onclick="openProductModal('${product.id}')" class="font-serif text-lg font-bold text-choco-900 group-hover:text-terracotta-600 transition-colors cursor-pointer line-clamp-1">
+                                ${product.name}
+                            </h3>
+                            <p class="text-xs text-choco-700/75 mt-1.5 line-clamp-2 leading-relaxed">
+                                ${product.desc}
+                            </p>
+                        </div>
+
+                        <div class="pt-3 border-t border-cream-100 flex items-center justify-between gap-2">
+                            <div>
+                                <p class="text-[10px] text-choco-700/60 font-medium">Mulai dari</p>
+                                <p class="text-base font-extrabold text-terracotta-600">${formatRupiah(product.price)}</p>
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <button onclick="openProductModal('${product.id}')" class="p-2.5 rounded-xl bg-cream-100 hover:bg-cream-200 text-choco-800 transition" title="Pilih Varian & Detail">
+                                    <i data-lucide="sliders-horizontal" class="w-4 h-4"></i>
+                                </button>
+                                <button onclick="quickAddToCart('${product.id}')" class="px-3.5 py-2.5 rounded-xl bg-choco-800 hover:bg-terracotta-600 text-white text-xs font-bold flex items-center gap-1.5 shadow-sm transition">
+                                    <i data-lucide="plus" class="w-4 h-4"></i> Keranjang
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            lucide.createIcons();
+        }
+
+        // 6. MODAL DETAIL PRODUK & PILIH VARIAN
+        function openProductModal(productId) {
+            const product = PRODUCTS.find(p => p.id === productId);
+            if (!product) return;
+
+            state.activeModalProduct = product;
+            state.activeModalVariantIndex = 0;
+            state.activeModalQty = 1;
+
+            document.getElementById('modalImg').src = product.image;
+            document.getElementById('modalCategory').textContent = product.category;
+            document.getElementById('modalTitle').textContent = product.name;
+            document.getElementById('modalRating').textContent = product.rating;
+            document.getElementById('modalReviews').textContent = `(${product.reviews} ulasan)`;
+            document.getElementById('modalDesc').textContent = product.desc;
+
+            renderModalVariants();
+            updateModalPriceDisplay();
+
+            const modal = document.getElementById('productModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            lucide.createIcons();
+        }
+
+        function closeProductModal() {
+            const modal = document.getElementById('productModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function renderModalVariants() {
+            const p = state.activeModalProduct;
+            const container = document.getElementById('modalVariants');
+            container.innerHTML = p.variants.map((v, idx) => {
+                const finalPrice = p.price + v.priceAdd;
+                const active = idx === state.activeModalVariantIndex;
+                return `
+                    <button type="button" onclick="selectModalVariant(${idx})" 
+                        class="p-3 rounded-2xl border text-left transition ${
+                            active 
+                            ? 'border-2 border-terracotta-600 bg-terracotta-500/10' 
+                            : 'border-cream-300 bg-cream-50 hover:bg-cream-100'
+                        }">
+                        <p class="text-xs font-bold text-choco-900">${v.name}</p>
+                        <p class="text-xs font-semibold text-terracotta-600 mt-0.5">${formatRupiah(finalPrice)}</p>
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function selectModalVariant(idx) {
+            state.activeModalVariantIndex = idx;
+            renderModalVariants();
+            updateModalPriceDisplay();
+        }
+
+        function changeModalQty(delta) {
+            state.activeModalQty = Math.max(1, state.activeModalQty + delta);
+            updateModalPriceDisplay();
+        }
+
+        function updateModalPriceDisplay() {
+            const p = state.activeModalProduct;
+            const variant = p.variants[state.activeModalVariantIndex];
+            const unitPrice = p.price + variant.priceAdd;
+            document.getElementById('modalPrice').textContent = formatRupiah(unitPrice);
+            document.getElementById('modalQty').textContent = state.activeModalQty;
+            document.getElementById('modalTotalBtnPrice').textContent = formatRupiah(unitPrice * state.activeModalQty);
+        }
+
+        function confirmAddFromModal() {
+            const p = state.activeModalProduct;
+            const variant = p.variants[state.activeModalVariantIndex];
+            addToCart(p, variant.name, p.price + variant.priceAdd, state.activeModalQty);
+            closeProductModal();
+        }
+
+        function quickAddToCart(productId) {
+            const p = PRODUCTS.find(item => item.id === productId);
+            if (!p) return;
+            const defaultVariant = p.variants[0];
+            addToCart(p, defaultVariant.name, p.price + defaultVariant.priceAdd, 1);
+        }
+
+        // 7. LOGIKA KERANJANG BELANJA (CART)
+        function addToCart(product, variantName, unitPrice, qty) {
+            const cartKey = `${product.id}__${variantName}`;
+            const existing = state.cart.find(item => item.key === cartKey);
+
+            if (existing) {
+                existing.qty += qty;
+            } else {
+                state.cart.push({
+                    key: cartKey,
+                    id: product.id,
+                    name: product.name,
+                    variant: variantName,
+                    price: unitPrice,
+                    image: product.image,
+                    qty: qty
+                });
+            }
+
+            updateCartUI();
+            showToast(`"${product.name}" ditambahkan ke keranjang!`);
+        }
+
+        function updateCartItemQty(key, delta) {
+            const idx = state.cart.findIndex(item => item.key === key);
+            if (idx === -1) return;
+
+            state.cart[idx].qty += delta;
+            if (state.cart[idx].qty <= 0) {
+                state.cart.splice(idx, 1);
+            }
+            updateCartUI();
+        }
+
+        function removeCartItem(key) {
+            state.cart = state.cart.filter(item => item.key !== key);
+            updateCartUI();
+        }
+
+        function toggleCartDrawer(open) {
+            const overlay = document.getElementById('cartDrawerOverlay');
+            if (open) {
+                overlay.classList.remove('hidden');
+                updateCartUI();
+            } else {
+                overlay.classList.add('hidden');
+            }
+        }
+
+        function copyPromoQuick(code) {
+            document.getElementById('promoInput').value = code;
+            showToast(`Kode promo ${code} disalin! Gunakan di keranjang belanja.`);
+        }
+
+        function applyPromoCode() {
+            const code = document.getElementById('promoInput').value.trim().toUpperCase();
+            const msgEl = document.getElementById('promoMessage');
+            msgEl.classList.remove('hidden');
+
+            if (!code) {
+                state.promoCode = null;
+                msgEl.textContent = 'Masukkan kode promo terlebih dahulu.';
+                msgEl.className = 'text-[11px] mt-1.5 text-rose-600 font-medium';
+                updateCartSummary();
+                return;
+            }
+
+            if (code === 'MANIS10' || code === 'KUEBARU') {
+                state.promoCode = code;
+                msgEl.textContent = code === 'MANIS10' 
+                    ? 'Berhasil! Diskon 10% diterapkan.' 
+                    : 'Berhasil! Potongan langsung Rp 15.000 diterapkan.';
+                msgEl.className = 'text-[11px] mt-1.5 text-emerald-600 font-semibold';
+                showToast(`Kode promo ${code} berhasil diterapkan!`);
+            } else {
+                state.promoCode = null;
+                msgEl.textContent = 'Kode promo tidak valid. Coba MANIS10 atau KUEBARU.';
+                msgEl.className = 'text-[11px] mt-1.5 text-rose-600 font-medium';
+            }
+            updateCartSummary();
+        }
+
+        function calculateTotals() {
+            const subtotal = state.cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            let discount = 0;
+
+            if (subtotal > 0 && state.promoCode) {
+                if (state.promoCode === 'MANIS10') {
+                    discount = Math.round(subtotal * 0.10);
+                } else if (state.promoCode === 'KUEBARU') {
+                    discount = Math.min(subtotal, 15000);
+                }
+            }
+
+            const shippingSelect = document.getElementById('shippingSelect');
+            const selectedOpt = shippingSelect.options[shippingSelect.selectedIndex];
+            const shippingCost = subtotal > 0 ? parseInt(selectedOpt.dataset.cost, 10) : 0;
+            const shippingLabel = selectedOpt.text.split('—')[0].trim();
+
+            const grandTotal = Math.max(0, subtotal - discount + shippingCost);
+            return { subtotal, discount, shippingCost, shippingLabel, grandTotal };
+        }
+
+        function updateCartSummary() {
+            const { subtotal, discount, shippingCost, grandTotal } = calculateTotals();
+
+            document.getElementById('cartSubtotal').textContent = formatRupiah(subtotal);
+            document.getElementById('cartShipping').textContent = formatRupiah(shippingCost);
+            document.getElementById('cartGrandTotal').textContent = formatRupiah(grandTotal);
+
+            const discountRow = document.getElementById('discountRow');
+            if (discount > 0) {
+                discountRow.classList.remove('hidden');
+                discountRow.classList.add('flex');
+                document.getElementById('appliedPromoLabel').textContent = state.promoCode;
+                document.getElementById('cartDiscount').textContent = `- ${formatRupiah(discount)}`;
+            } else {
+                discountRow.classList.add('hidden');
+                discountRow.classList.remove('flex');
+            }
+        }
+
+        function updateCartUI() {
+            const totalQty = state.cart.reduce((sum, item) => sum + item.qty, 0);
+            document.getElementById('cartBadge').textContent = totalQty;
+            document.getElementById('cartItemCountLabel').textContent = `${totalQty} item dipilih`;
+
+            const container = document.getElementById('cartItemsContainer');
+            const footer = document.getElementById('cartFooter');
+
+            if (state.cart.length === 0) {
+                footer.classList.add('hidden');
+                container.innerHTML = `
+                    <div class="h-full flex flex-col items-center justify-center text-center py-12">
+                        <div class="w-16 h-16 rounded-full bg-cream-100 text-choco-700/50 flex items-center justify-center mb-3">
+                            <i data-lucide="shopping-bag" class="w-8 h-8"></i>
+                        </div>
+                        <h4 class="font-serif text-lg font-bold text-choco-900">Keranjang masih kosong</h4>
+                        <p class="text-xs text-choco-700/70 mt-1 max-w-xs">Yuk pilih cake, croissant, atau cookies favoritmu terlebih dahulu!</p>
+                        <button onclick="toggleCartDrawer(false)" class="mt-4 px-5 py-2.5 rounded-full bg-choco-800 text-white text-xs font-semibold">
+                            Lihat Menu Kue
+                        </button>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            footer.classList.remove('hidden');
+            container.innerHTML = state.cart.map(item => `
+                <div class="flex gap-3.5 p-3 bg-white rounded-2xl border border-cream-200 shadow-2xs">
+                    <img src="${item.image}" alt="${item.name}" class="w-16 h-16 rounded-xl object-cover shrink-0 bg-cream-100">
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-start justify-between gap-2">
+                            <h4 class="text-xs font-bold text-choco-900 truncate">${item.name}</h4>
+                            <button onclick="removeCartItem('${item.key}')" class="text-choco-700/40 hover:text-rose-600 transition">
+                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                            </button>
+                        </div>
+                        <p class="text-[11px] text-choco-700/70 mt-0.5">${item.variant}</p>
+                        <div class="flex items-center justify-between mt-2">
+                            <span class="text-xs font-bold text-terracotta-600">${formatRupiah(item.price * item.qty)}</span>
+                            <div class="flex items-center gap-2 bg-cream-100 rounded-lg px-2 py-0.5">
+                                <button onclick="updateCartItemQty('${item.key}', -1)" class="text-xs font-bold text-choco-900 px-1 hover:text-terracotta-600">-</button>
+                                <span class="text-xs font-bold w-4 text-center">${item.qty}</span>
+                                <button onclick="updateCartItemQty('${item.key}', 1)" class="text-xs font-bold text-choco-900 px-1 hover:text-terracotta-600">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            updateCartSummary();
+            lucide.createIcons();
+        }
+
+        // 8. CHECKOUT & PILIHAN METODE PEMBAYARAN BERAGAM
+        function openCheckoutModal() {
+            if (state.cart.length === 0) return;
+            toggleCartDrawer(false);
+
+            const { grandTotal } = calculateTotals();
+            document.getElementById('checkoutFinalTotal').textContent = formatRupiah(grandTotal);
+            selectPaymentCategory(state.selectedPayCategory);
+
+            const modal = document.getElementById('checkoutModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            lucide.createIcons();
+        }
+
+        function closeCheckoutModal() {
+            const modal = document.getElementById('checkoutModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function selectPaymentCategory(category) {
+            state.selectedPayCategory = category;
+
+            // Update styling tombol kategori
+            document.querySelectorAll('.pay-cat-btn').forEach(btn => {
+                btn.classList.remove('border-2', 'border-terracotta-600', 'bg-terracotta-500/10');
+                btn.classList.add('border', 'border-cream-300', 'bg-white');
+            });
+            const activeBtn = document.getElementById(`payCat-${category}`);
+            activeBtn.classList.remove('border', 'border-cream-300', 'bg-white');
+            activeBtn.classList.add('border-2', 'border-terracotta-600', 'bg-terracotta-500/10');
+
+            const box = document.getElementById('paymentDetailBox');
+            const confirmText = document.getElementById('confirmPayBtnText');
+
+            if (category === 'qris') {
+                state.selectedPaySubMethod = 'QRIS Instan';
+                confirmText.textContent = 'Saya Sudah Scan & Bayar QRIS';
+                box.innerHTML = `
+                    <div class="text-center space-y-2.5">
+                        <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-cream-100 text-[11px] font-bold text-choco-800">
+                            NMID: ID1026889920112 • Sweet Crumb
+                        </div>
+                        <div class="w-40 h-40 mx-auto p-2 bg-white border-2 border-choco-800 rounded-2xl shadow-xs flex items-center justify-center">
+                            <canvas id="checkoutQrisCanvas" width="140" height="140"></canvas>
+                        </div>
+                        <p class="text-[11px] text-choco-700/80 leading-relaxed">
+                            Scan kode QRIS di atas menggunakan aplikasi <strong>GoPay, OVO, DANA, ShopeePay, BCA Mobile, Livin'</strong>, atau m-Banking lainnya.
+                        </p>
+                    </div>
+                `;
+                setTimeout(() => drawStylizedQR('checkoutQrisCanvas', 'SWEETCRUMB-QRIS-PAY'), 20);
+            } 
+            else if (category === 'va') {
+                const banks = [
+                    { code: 'BCA', name: 'BCA Virtual Account', va: '88012 0811 9988 7766' },
+                    { code: 'Mandiri', name: 'Mandiri Virtual Account', va: '89022 0811 9988 7766' },
+                    { code: 'BNI', name: 'BNI Virtual Account', va: '88088 0811 9988 7766' },
+                    { code: 'BRI', name: 'BRI Virtual Account (BRIVA)', va: '26215 0811 9988 7766' }
+                ];
+                state.selectedPaySubMethod = banks[0].name;
+                confirmText.textContent = 'Konfirmasi Transfer Virtual Account';
+                box.innerHTML = `
+                    <div class="space-y-3">
+                        <label class="block text-xs font-bold text-choco-800">Pilih Bank Virtual Account:</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            ${banks.map((b, i) => `
+                                <button type="button" onclick="selectVaBank('${b.name}', '${b.va}', this)" 
+                                    class="va-bank-btn py-2 px-3 rounded-xl border text-xs font-bold transition ${i === 0 ? 'border-choco-800 bg-choco-800 text-gold-400' : 'border-cream-300 bg-cream-50 text-choco-800'}">
+                                    ${b.code}
+                                </button>
+                            `).join('')}
+                        </div>
+                        <div class="p-3 bg-cream-50 rounded-xl border border-cream-200 flex items-center justify-between">
+                            <div>
+                                <p class="text-[10px] text-choco-700/70">Nomor Virtual Account</p>
+                                <p id="vaNumberText" class="font-mono text-sm font-bold text-choco-900 mt-0.5">${banks[0].va}</p>
+                            </div>
+                            <button type="button" onclick="copyTextValue(document.getElementById('vaNumberText').textContent)" class="px-3 py-1.5 rounded-lg bg-white border border-cream-300 text-xs font-bold text-terracotta-600 hover:bg-cream-100">
+                                Salin
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } 
+            else if (category === 'ewallet') {
+                const wallets = ['GoPay', 'OVO', 'DANA', 'ShopeePay'];
+                state.selectedPaySubMethod = 'E-Wallet (GoPay)';
+                confirmText.textContent = 'Bayar dengan E-Wallet';
+                box.innerHTML = `
+                    <div class="space-y-3">
+                        <label class="block text-xs font-bold text-choco-800">Pilih Dompet Digital:</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            ${wallets.map((w, i) => `
+                                <button type="button" onclick="selectEwallet('${w}', this)" 
+                                    class="ewallet-btn py-2.5 px-3 rounded-xl border text-xs font-bold transition ${i === 0 ? 'border-choco-800 bg-choco-800 text-gold-400' : 'border-cream-300 bg-cream-50 text-choco-800'}">
+                                    ${w}
+                                </button>
+                            `).join('')}
+                        </div>
+                        <p class="text-[11px] text-choco-700/80 bg-cream-50 p-2.5 rounded-xl border border-cream-200">
+                            Nomor tujuan / ID Merchant: <strong>0811-9988-7766 (a.n. Sweet Crumb Patisserie)</strong>. Otomatis terverifikasi setelah klik bayar.
+                        </p>
+                    </div>
+                `;
+            } 
+            else if (category === 'cod') {
+                state.selectedPaySubMethod = 'COD (Bayar di Tempat)';
+                confirmText.textContent = 'Buat Pesanan COD Sekarang';
+                box.innerHTML = `
+                    <div class="space-y-2 text-xs text-choco-800">
+                        <div class="flex items-center gap-2 font-bold text-terracotta-600">
+                            <i data-lucide="info" class="w-4 h-4"></i> Ketentuan Bayar di Tempat (COD)
+                        </div>
+                        <p class="text-[11px] text-choco-700/80 leading-relaxed">
+                            Siapkan uang tunai pas sebesar total tagihan saat kurir Sweet Crumb tiba di alamat Anda. Berlaku untuk area pengantaran dalam kota.
+                        </p>
+                    </div>
+                `;
+                lucide.createIcons();
+            }
+        }
+
+        function selectVaBank(bankName, vaNum, btnEl) {
+            state.selectedPaySubMethod = bankName;
+            document.getElementById('vaNumberText').textContent = vaNum;
+            document.querySelectorAll('.va-bank-btn').forEach(b => {
+                b.className = 'va-bank-btn py-2 px-3 rounded-xl border border-cream-300 bg-cream-50 text-choco-800 text-xs font-bold transition';
+            });
+            btnEl.className = 'va-bank-btn py-2 px-3 rounded-xl border border-choco-800 bg-choco-800 text-gold-400 text-xs font-bold transition';
+        }
+
+        function selectEwallet(walletName, btnEl) {
+            state.selectedPaySubMethod = `E-Wallet (${walletName})`;
+            document.querySelectorAll('.ewallet-btn').forEach(b => {
+                b.className = 'ewallet-btn py-2.5 px-3 rounded-xl border border-cream-300 bg-cream-50 text-choco-800 text-xs font-bold transition';
+            });
+            btnEl.className = 'ewallet-btn py-2.5 px-3 rounded-xl border border-choco-800 bg-choco-800 text-gold-400 text-xs font-bold transition';
+        }
+
+        function copyTextValue(text) {
+            const tempInput = document.createElement('input');
+            tempInput.value = text.replace(/\s+/g, '');
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            showToast('Nomor Virtual Account berhasil disalin!');
+        }
+
+        // 9. PROSES PEMBAYARAN & GENERATE BUKTI TRANSAKSI
+        function processPayment() {
+            const name = document.getElementById('custName').value.trim();
+            const phone = document.getElementById('custPhone').value.trim();
+            const address = document.getElementById('custAddress').value.trim();
+            const note = document.getElementById('custNote').value.trim();
+
+            if (!name || !phone || !address) {
+                showToast('Mohon lengkapi Nama, Nomor WhatsApp, dan Alamat Pengiriman!', 'error');
+                return;
+            }
+
+            const btn = document.getElementById('confirmPayBtn');
+            const originalHTML = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = `<span class="animate-spin inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full"></span> Memverifikasi Pembayaran...`;
+
+            setTimeout(() => {
+                const totals = calculateTotals();
+                const now = new Date();
+                const invoiceNum = `INV-${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}-${Math.floor(1000 + Math.random() * 9000)}`;
+                const formattedDate = now.toLocaleDateString('id-ID', {
+                    day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
+                }) + ' WIB';
+
+                const isCOD = state.selectedPayCategory === 'cod';
+                const orderData = {
+                    invoice: invoiceNum,
+                    date: formattedDate,
+                    status: isCOD ? 'BAYAR COD' : 'LUNAS',
+                    isCOD: isCOD,
+                    customer: { name, phone, address, note },
+                    paymentMethod: state.selectedPaySubMethod,
+                    items: JSON.parse(JSON.stringify(state.cart)),
+                    totals: totals
+                };
+
+                // Simpan ke riwayat pesanan
+                state.orders.unshift(orderData);
+                try {
+                    localStorage.setItem('sweetcrumb_orders', JSON.stringify(state.orders));
+                } catch (e) {}
+                updateOrderBadge();
+
+                // Reset Keranjang
+                state.cart = [];
+                state.promoCode = null;
+                document.getElementById('promoInput').value = '';
+                document.getElementById('promoMessage').classList.add('hidden');
+                updateCartUI();
+
+                // Pulihkan tombol & tutup modal checkout
+                btn.disabled = false;
+                btn.innerHTML = originalHTML;
+                closeCheckoutModal();
+
+                // Tampilkan Struk Digital / Bukti Pembayaran
+                openReceiptModal(orderData);
+            }, 900);
+        }
+
+        // 10. TAMPILKAN STRUK DIGITAL & DOWNLOAD KE GALERI (PNG)
+        function openReceiptModal(order) {
+            document.getElementById('recInvoice').textContent = order.invoice;
+            document.getElementById('recDate').textContent = order.date;
+            
+            const badge = document.getElementById('recStatusBadge');
+            if (order.isCOD) {
+                badge.textContent = 'BAYAR COD';
+                badge.className = 'px-3 py-1.5 rounded-lg bg-amber-100 border border-amber-300 text-amber-800 text-xs font-extrabold tracking-wide';
+            } else {
+                badge.textContent = 'LUNAS';
+                badge.className = 'px-3 py-1.5 rounded-lg bg-emerald-100 border border-emerald-300 text-emerald-800 text-xs font-extrabold tracking-wide';
+            }
+
+            document.getElementById('recCustName').textContent = order.customer.name;
+            document.getElementById('recCustPhone').textContent = order.customer.phone;
+            document.getElementById('recCustAddress').textContent = order.customer.address;
+            document.getElementById('recPayMethod').textContent = order.paymentMethod;
+
+            const noteRow = document.getElementById('recNoteRow');
+            if (order.customer.note) {
+                noteRow.classList.remove('hidden');
+                document.getElementById('recCustNote').textContent = `"${order.customer.note}"`;
+            } else {
+                noteRow.classList.add('hidden');
+            }
+
+            // Render Item Kue di Struk
+            document.getElementById('recItemsList').innerHTML = order.items.map(item => `
+                <div class="flex justify-between items-start gap-2">
+                    <div>
+                        <p class="font-bold text-choco-900">${item.name}</p>
+                        <p class="text-[11px] text-choco-700/70">${item.variant} • ${item.qty} x ${formatRupiah(item.price)}</p>
+                    </div>
+                    <span class="font-bold text-choco-900 shrink-0">${formatRupiah(item.price * item.qty)}</span>
+                </div>
+            `).join('');
+
+            // Rincian Biaya
+            document.getElementById('recSubtotal').textContent = formatRupiah(order.totals.subtotal);
+            const discRow = document.getElementById('recDiscountRow');
+            if (order.totals.discount > 0) {
+                discRow.classList.remove('hidden');
+                document.getElementById('recDiscount').textContent = `- ${formatRupiah(order.totals.discount)}`;
+            } else {
+                discRow.classList.add('hidden');
+            }
+            document.getElementById('recShippingLabel').textContent = `Ongkir (${order.totals.shippingLabel})`;
+            document.getElementById('recShipping').textContent = formatRupiah(order.totals.shippingCost);
+            document.getElementById('recGrandTotal').textContent = formatRupiah(order.totals.grandTotal);
+
+            // Gambar QR Code Verifikasi Unik di Canvas Struk
+            drawStylizedQR('receiptQrCanvas', order.invoice);
+
+            const modal = document.getElementById('receiptModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            lucide.createIcons();
+        }
+
+        function closeReceiptModal() {
+            const modal = document.getElementById('receiptModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Render QR Code Deterministik pada Canvas agar Tajam & Bisa Di-capture
+        function drawStylizedQR(canvasId, seedText) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const size = canvas.width;
+            const cells = 21;
+            const cellSize = size / cells;
+
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, size, size);
+            ctx.fillStyle = '#2D1A12';
+
+            // Hash sederhana dari seedText
+            let hash = 0;
+            for (let i = 0; i < seedText.length; i++) {
+                hash = ((hash << 5) - hash) + seedText.charCodeAt(i);
+                hash |= 0;
+            }
+
+            const drawFinder = (ox, oy) => {
+                ctx.fillRect(ox * cellSize, oy * cellSize, 7 * cellSize, 7 * cellSize);
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fillRect((ox + 1) * cellSize, (oy + 1) * cellSize, 5 * cellSize, 5 * cellSize);
+                ctx.fillStyle = '#2D1A12';
+                ctx.fillRect((ox + 2) * cellSize, (oy + 2) * cellSize, 3 * cellSize, 3 * cellSize);
+            };
+
+            drawFinder(0, 0);
+            drawFinder(cells - 7, 0);
+            drawFinder(0, cells - 7);
+
+            for (let r = 0; r < cells; r++) {
+                for (let c = 0; c < cells; c++) {
+                    const inTopLeft = r < 8 && c < 8;
+                    const inTopRight = r < 8 && c >= cells - 8;
+                    const inBottomLeft = r >= cells - 8 && c < 8;
+                    if (inTopLeft || inTopRight || inBottomLeft) continue;
+
+                    const val = Math.abs(Math.sin(hash + r * 31 + c * 17));
+                    if (val > 0.48) {
+                        ctx.fillRect(c * cellSize, r * cellSize, cellSize * 0.92, cellSize * 0.92);
+                    }
+                }
+            }
+        }
+
+        // FUNGSI UTAMA: DOWNLOAD BUKTI PEMBAYARAN KE GALERI / PERANGKAT (PNG HD)
+        async function downloadReceiptImage() {
+            const receiptEl = document.getElementById('printableReceipt');
+            const invoiceCode = document.getElementById('recInvoice').textContent;
+            const btn = document.getElementById('downloadReceiptBtn');
+            const originalHTML = btn.innerHTML;
+
+            try {
+                btn.disabled = true;
+                btn.innerHTML = `<span class="animate-spin inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full"></span> Menyimpan Gambar Struk...`;
+
+                // Render HTML ke Canvas dengan skala 3x agar sangat tajam saat dibuka di Galeri HP
+                const canvas = await html2canvas(receiptEl, {
+                    scale: 3,
+                    backgroundColor: '#FFFFFF',
+                    useCORS: true,
+                    logging: false
+                });
+
+                const dataUrl = canvas.toDataURL('image/png', 1.0);
+                const link = document.createElement('a');
+                link.download = `Bukti-Pembayaran-SweetCrumb-${invoiceCode}.png`;
+                link.href = dataUrl;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                showToast('Bukti pembayaran berhasil diunduh & tersimpan di Galeri!');
+            } catch (err) {
+                console.error('Gagal mengunduh struk:', err);
+                showToast('Terjadi kendala saat mengunduh struk. Silakan coba lagi.', 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalHTML;
+                lucide.createIcons();
+            }
+        }
+
+        // 11. RIWAYAT PESANAN (ORDER HISTORY)
+        function updateOrderBadge() {
+            const badge = document.getElementById('orderBadge');
+            if (state.orders.length > 0) {
+                badge.textContent = state.orders.length;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        function openHistoryModal() {
+            const container = document.getElementById('historyListContainer');
+            if (state.orders.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-10">
+                        <i data-lucide="receipt" class="w-10 h-10 mx-auto text-choco-700/40 mb-2"></i>
+                        <p class="font-serif font-bold text-choco-900">Belum ada riwayat pesanan</p>
+                        <p class="text-xs text-choco-700/70 mt-1">Transaksi kue yang selesai akan muncul di sini agar bisa diunduh ulang kapan saja.</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = state.orders.map((ord, idx) => `
+                    <div class="p-4 bg-white rounded-2xl border border-cream-200 shadow-2xs flex items-center justify-between gap-3">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="font-mono text-xs font-bold text-choco-900">${ord.invoice}</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] font-bold ${ord.isCOD ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'}">
+                                    ${ord.status}
+                                </span>
+                            </div>
+                            <p class="text-[11px] text-choco-700/70 mt-0.5">${ord.date} • ${ord.items.length} jenis kue</p>
+                            <p class="text-xs font-extrabold text-terracotta-600 mt-1">${formatRupiah(ord.totals.grandTotal)}</p>
+                        </div>
+                        <button onclick="viewOrderFromHistory(${idx})" class="px-3.5 py-2 rounded-xl bg-choco-800 hover:bg-terracotta-600 text-white text-xs font-bold flex items-center gap-1.5 transition shrink-0">
+                            <i data-lucide="download" class="w-3.5 h-3.5"></i> Lihat Struk
+                        </button>
+                    </div>
+                `).join('');
+            }
+
+            const modal = document.getElementById('historyModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            lucide.createIcons();
+        }
+
+        function closeHistoryModal() {
+            const modal = document.getElementById('historyModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function viewOrderFromHistory(index) {
+            closeHistoryModal();
+            openReceiptModal(state.orders[index]);
+        }
+
+        // 12. TOAST NOTIFICATION INTERAKTIF
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            const bgClass = type === 'error' ? 'bg-rose-700 text-white' : 'bg-choco-900 text-cream-50 border border-gold-400/30';
+            
+            toast.className = `${bgClass} px-4 py-3 rounded-2xl shadow-xl text-xs font-semibold flex items-center gap-2.5 animate-fade-up max-w-xs`;
+            toast.innerHTML = `
+                <i data-lucide="${type === 'error' ? 'alert-circle' : 'check-circle-2'}" class="w-4 h-4 ${type === 'error' ? 'text-rose-200' : 'text-gold-400'} shrink-0"></i>
+                <span>${message}</span>
+            `;
+            container.appendChild(toast);
+            lucide.createIcons();
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(8px)';
+                toast.style.transition = 'all 0.25s ease';
+                setTimeout(() => toast.remove(), 250);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
